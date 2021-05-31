@@ -37,6 +37,31 @@ func findUnsortedSubarray(nums []int) int {
 
 /*
 // 栈
+	var (
+		start, end int
+	)
+	numsLen := len(nums)
+	stack := []int{}
+	start = numsLen
+	for i := 0; i < len(nums); i++ {
+		for len(stack) != 0 && nums[stack[len(stack)-1]] > nums[i] {
+			start = min(start, stack[len(stack)-1])
+			stack = stack[:len(stack)-1]
+		}
+		stack = append(stack, i)
+	}
+	stack = []int{}
+	for j := numsLen - 1; j >= 0; j-- {
+		for len(stack) != 0 && nums[stack[len(stack)-1]] < nums[j] {
+			end = max(end, stack[len(stack)-1])
+			stack = stack[:len(stack)-1]
+		}
+		stack = append(stack, j)
+	}
+	if end-start > 0 {
+		return end - start + 1
+	}
+	return 0
 */
 // @lc code=start
 func max(a, b int) int {
@@ -62,24 +87,12 @@ func min(a, b int) int {
 // 同理，在逆序区间的右边找到第一个小于逆序区间内最大元素，说明这里刚刚发生逆序，这才是最小逆序区间的右边界。
 // 至此，最小逆序区间的左右边界都确定下来了，最短长度也就确定了下来。时间复杂度 O(n)，空间复杂度 O(1)。
 func findUnsortedSubarray(nums []int) int {
-	n, left, right, minR, maxL, isSort := len(nums), -1, -1, math.MaxInt32, math.MinInt32, false
+	n, left, right, minR, maxL := len(nums), -1, -1, math.MaxInt32, math.MinInt32
 	// left
 	for i := 1; i < n; i++ {
 		if nums[i] < nums[i-1] {
-			isSort = true
-		}
-		if isSort {
 			minR = min(minR, nums[i])
-		}
-	}
-	isSort = false
-	// right
-	for i := n - 2; i >= 0; i-- {
-		if nums[i] > nums[i+1] {
-			isSort = true
-		}
-		if isSort {
-			maxL = max(maxL, nums[i])
+			maxL = max(maxL, nums[i-1])
 		}
 	}
 	// minR
