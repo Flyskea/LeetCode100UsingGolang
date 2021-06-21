@@ -15,7 +15,7 @@ type TreeNode struct {
 
 // 前序遍历结果
 // [根节点, [左子树的前序遍历结果], [右子树的前序遍历结果]]
-// 后序遍历结果
+// 中序遍历结果
 // [[左子树的中序遍历结果], 根节点, [右子树的中序遍历结果]]
 // @lc code=start
 func buildTree(preorder []int, inorder []int) *TreeNode {
