@@ -107,7 +107,146 @@ func min3(a, b, c int) int {
 	}
 }
 
+func maxProduct(nums []int) int {
+	numsLen := len(nums)
+	dp := make([][2]int, numsLen)
+	dp[0][0] = nums[0]
+	dp[0][1] = nums[0]
+	ans := 0
+	for i := 1; i < numsLen; i++ {
+		dp[i][0] = max(dp[i-1][0]*nums[i], max(nums[i], nums[i]*dp[i-1][1]))
+		dp[i][1] = min(dp[i-1][1]*nums[i], min(nums[i], nums[i]*dp[i-1][0]))
+		ans = max(ans, dp[i][0])
+	}
+	return ans
+}
+
+func inorder(root *TreeNode) {
+	if root == nil {
+		return
+	}
+	inorder(root.Left)
+	fmt.Printf("%d", root.Val)
+	inorder(root.Right)
+}
+
+func invertTree(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	root.Left = invertTree(root.Left)
+	root.Right = invertTree(root.Right)
+	tmp := root.Left
+	root.Left = root.Right
+	root.Right = tmp
+	return root
+}
+
+type doubleLinkList struct {
+	key, val   int
+	prev, next *doubleLinkList
+}
+type LRUCache struct {
+	head, tail *doubleLinkList
+	keys       map[int]*doubleLinkList
+	capacity   int
+}
+
+func Constructor(capacity int) LRUCache {
+	return LRUCache{capacity: capacity,
+		keys: make(map[int]*doubleLinkList),
+	}
+}
+
+func (lru *LRUCache) add(node *doubleLinkList) {
+	node.prev = nil
+	node.next = lru.head
+	if lru.head != nil {
+		lru.head.prev = node
+	}
+	lru.head = node
+	if lru.tail == nil {
+		lru.tail = node
+		lru.tail.next = nil
+	}
+}
+
+func (lru *LRUCache) remove(node *doubleLinkList) {
+	if node == lru.head {
+		lru.head = node.next
+		if node.next != nil {
+			node.next.prev = nil
+		}
+		node.next = nil
+		return
+	}
+	if node == lru.tail {
+		lru.tail = node.prev
+		node.prev.next = nil
+		node.prev = nil
+		return
+	}
+	node.prev.next = node.next
+	node.next.prev = node.prev
+}
+
+func (lru *LRUCache) Get(key int) int {
+	if node, ok := lru.keys[key]; ok {
+		lru.remove(node)
+		lru.add(node)
+		return node.val
+	}
+	return -1
+}
+
+func (lru *LRUCache) Put(key int, value int) {
+	if node, ok := lru.keys[key]; ok {
+		lru.remove(node)
+		lru.add(node)
+		node.val = value
+	} else {
+		node = &doubleLinkList{
+			val: value,
+			key: key,
+		}
+		lru.keys[key] = node
+		lru.add(node)
+	}
+	if len(lru.keys) > lru.capacity {
+		delete(lru.keys, lru.tail.key)
+		lru.remove(lru.tail)
+	}
+}
+
 func main() {
-	fmt.Println(GetUglyNumber_Solution(3))
-	fmt.Println(dicesProbability(1))
+	a := &TreeNode{
+		Val: 4,
+		Left: &TreeNode{
+			Val: 2,
+			Left: &TreeNode{
+				Val: 1,
+			},
+			Right: &TreeNode{
+				Val: 3,
+			},
+		},
+		Right: &TreeNode{
+			Val: 7,
+			Left: &TreeNode{
+				Val: 6,
+			},
+			Right: &TreeNode{
+				Val: 9,
+			},
+		},
+	}
+	inorder(a)
+	fmt.Println()
+	invertTree(a)
+	inorder(a)
+	lru := Constructor(3)
+	lru.Get(2)
+	lru.Put(2, 2)
+	lru.Get(2)
+	fmt.Println(maxProduct([]int{2, 3, -2, 4}))
 }
