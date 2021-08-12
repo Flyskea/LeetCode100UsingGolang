@@ -35,6 +35,19 @@ func rob(nums []int) int {
 	return dp[numsLen-1]
 }
 
+/*优化
+n := len(nums)
+if n == 0 {
+	return 0
+}
+curMax, preMax := 0, 0
+for i := 0; i < n; i++ {
+	tmp := curMax
+	curMax = max(curMax, nums[i]+preMax)
+	preMax = tmp
+}
+return curMax */
+
 // @lc code=end
 func main() {
 	fmt.Println(rob([]int{1, 2, 3, 1}))

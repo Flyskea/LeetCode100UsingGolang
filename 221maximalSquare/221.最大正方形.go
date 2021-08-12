@@ -22,6 +22,9 @@ func min(a, b int) int {
 	return b
 }
 
+// 之所以取最小的数，是因为要保证得到的是正方形而不是长方形呀。
+// 比如从上往下有4个1，但是从左往右只有2个1，如果取4个1的话，
+// 从左往右不够4个，只有两个，此时成了2*4的长方形。因此，只能取最小的那个2。
 func maximalSquare(matrix [][]byte) int {
 	rows, cols := len(matrix), len(matrix[0])
 	if rows <= 0 || cols <= 0 {
@@ -32,8 +35,8 @@ func maximalSquare(matrix [][]byte) int {
 		dp[i] = make([]int, cols+1)
 	}
 	maxSide := 0
-	for i := 1; i <= rows; i++ {
-		for j := 1; j <= cols; j++ {
+	for i := 0; i <= rows; i++ {
+		for j := 0; j <= cols; j++ {
 			if matrix[i-1][j-1] == '1' {
 				dp[i][j] = min(dp[i-1][j-1], min(dp[i-1][j], dp[i][j-1])) + 1
 			}
