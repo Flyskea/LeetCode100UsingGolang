@@ -32,5 +32,5 @@ func longestConsecutive(nums []int) int {
 
 // @lc code=end
 func main() {
-	fmt.Println(longestConsecutive([]int{0, 1, 2, 3}))
+	fmt.Println(longestConsecutive([]int{0, 4, 1, 2, 3}))
 }
