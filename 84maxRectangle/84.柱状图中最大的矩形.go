@@ -14,6 +14,31 @@ func max(a, b int) int {
 	}
 	return b
 }
+
+/*
+单调栈
+func largestRectangleArea(heights []int) int {
+	var cur,curHeight, left, right, curWidth, ans int
+	newHeights := make([]int, len(heights)+2)
+	stack := make([]int, 0)
+	for i := 1; i < len(heights)+1; i++ {
+		newHeights[i] = heights[i-1]
+	}
+	for i, v := range newHeights {
+		for len(stack) != 0 && v < newHeights[stack[len(stack)-1]] {
+			cur = stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
+			curHeight = newHeights[cur]
+			left = stack[len(stack)-1]
+			right = i
+			curWidth = right - left - 1
+			ans = max(ans, curHeight*curWidth)
+		}
+		stack = append(stack, i)
+	}
+	return ans
+} */
+
 func largestRectangleArea(heights []int) int {
 	var ans int
 	stack := []int{}

@@ -35,8 +35,8 @@ func maximalSquare(matrix [][]byte) int {
 		dp[i] = make([]int, cols+1)
 	}
 	maxSide := 0
-	for i := 0; i <= rows; i++ {
-		for j := 0; j <= cols; j++ {
+	for i := 1; i <= rows; i++ {
+		for j := 1; j <= cols; j++ {
 			if matrix[i-1][j-1] == '1' {
 				dp[i][j] = min(dp[i-1][j-1], min(dp[i-1][j], dp[i][j-1])) + 1
 			}

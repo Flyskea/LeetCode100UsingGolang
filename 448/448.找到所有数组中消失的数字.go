@@ -9,7 +9,7 @@ import "fmt"
 
 // @lc code=start
 func findDisappearedNumbers(nums []int) []int {
-	res := make([]int, -0)
+	res := make([]int, 0)
 	for _, v := range nums {
 		if v < 0 {
 			v = -v
@@ -28,5 +28,5 @@ func findDisappearedNumbers(nums []int) []int {
 
 // @lc code=end
 func main() {
-	fmt.Println(findDisappearedNumbers([]int{1, 3, 3}))
+	fmt.Println(findDisappearedNumbers([]int{4, 3, 2, 7, 8, 2, 3, 1}))
 }

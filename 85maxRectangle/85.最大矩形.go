@@ -24,6 +24,40 @@ func max(a, b int) int {
 	return b
 }
 
+/*
+将每一列高度统计，将参数传递给84题
+func largestRectangleArea(heights []int) int {
+	var maxArea, left, right, cur, curHeight, width int
+	stack := []int{}
+	for i, v := range heights {
+		for len(stack) > 0 && stack[len(stack)-1] < v {
+			cur = stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
+			right = i
+			left = stack[len(stack)-1]
+			width = right - left - 1
+			curHeight = heights[cur]
+			maxArea = max(maxArea, curHeight*width)
+		}
+		stack = append(stack, i)
+	}
+	return maxArea
+}
+
+func maximalRectangle1(martix [][]byte) int {
+	heights := make([]int, len(martix))
+	var maxArea int
+	for i := range martix {
+		for j, col := range martix[i] {
+			if col == '1' {
+				heights[j] += 1
+			}
+		}
+		maxArea = max(maxArea, largestRectangleArea(heights))
+	}
+	return maxArea
+} */
+
 func maximalRectangle(matrix [][]byte) int {
 	var ans int
 	if len(matrix) == 0 {
